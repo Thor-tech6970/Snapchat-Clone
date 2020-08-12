@@ -28,6 +28,8 @@ public class CreateSnapActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
+    ArrayAdapter arrayAdapter;
+
 
 
 
@@ -62,7 +64,13 @@ public class CreateSnapActivity extends AppCompatActivity {
 
             startActivity(intent);
 
+       }
 
+       else if(item.getItemId() == R.id.payment){
+
+           Intent intent = new Intent(CreateSnapActivity.this , PaymentActivity.class);
+
+           startActivity(intent);
 
 
 
@@ -103,7 +111,7 @@ public class CreateSnapActivity extends AppCompatActivity {
 
                 snaps.add(dataSnapshot);
 
-                final ArrayAdapter arrayAdapter = new ArrayAdapter(CreateSnapActivity.this , android.R.layout.simple_expandable_list_item_1 , emails);
+                 arrayAdapter = new ArrayAdapter(CreateSnapActivity.this , android.R.layout.simple_expandable_list_item_1 , emails);
 
                 snapsListView.setAdapter(arrayAdapter);
 
@@ -123,6 +131,27 @@ public class CreateSnapActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                int index= 0 ;
+
+                for(DataSnapshot snap: snaps){
+
+                    if((snap.getKey()).equals(dataSnapshot.getKey())){
+
+                        emails.remove(index);
+
+                        snaps.remove(index);
+
+                    }
+
+
+                    index++ ;
+
+                }
+
+                arrayAdapter.notifyDataSetChanged();
+
+
 
             }
 
@@ -144,6 +173,8 @@ public class CreateSnapActivity extends AppCompatActivity {
 
 
                 Intent intent = new Intent(CreateSnapActivity.this , SnapsActivity.class);
+
+                intent.putExtra("Snap message" , snaps.get(i).child("Message").getValue(String.class));
 
                 intent.putExtra("Snap URL" , snaps.get(i).child(" Image URL ").getValue(String.class));
 

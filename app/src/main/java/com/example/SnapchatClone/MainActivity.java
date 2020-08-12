@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
     Uri selectedImage;
+
+    EditText messageEditText;
 
     public void getPhoto(){
 
@@ -168,9 +171,12 @@ public class MainActivity extends AppCompatActivity {
                                     if(task.isSuccessful()){
 
                                         Intent intent = new Intent(MainActivity.this , userList.class);
+
                                         intent.putExtra("Image URL" ,  task.getResult().toString());
 
                                         intent.putExtra("Image Name" , imageName);
+
+                                        intent.putExtra("Message" , messageEditText.getText().toString());
 
                                         startActivity(intent);
                                     }
@@ -203,6 +209,10 @@ public class MainActivity extends AppCompatActivity {
                 else{
 
                     Toast.makeText(MainActivity.this,"Image Selection Error",Toast.LENGTH_SHORT).show();
+
+                    progressDialog.dismiss();
+
+                    return;
                 }
             }
             else {
@@ -226,6 +236,8 @@ public class MainActivity extends AppCompatActivity {
         storageReference = firebaseStorage.getReference("Images");
 
         firebaseAuth= FirebaseAuth.getInstance();
+
+        messageEditText = (EditText) findViewById(R.id.messageEditText);
 
 
 

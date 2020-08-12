@@ -3,7 +3,8 @@
     package="com.example.SnapchatClone">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,17 +12,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.SnapchatClone.SnapsActivity"></activity>
-        <activity android:name="com.example.SnapchatClone.userList" />
-        <activity android:name="com.example.SnapchatClone.MainActivity" />
-        <activity android:name="com.example.SnapchatClone.CreateSnapActivity" />
-        <activity android:name="com.example.SnapchatClone.LoginActivity">
+        <activity android:name=".ImageAdapter">
+
+                />
+        </activity>
+
+        <activity android:name=".PaymentActivity" />
+
+        <activity android:name=".SplashActivity"
+            android:theme="@style/Theme.Design.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".SnapsActivity" />
+        <activity android:name=".userList" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".CreateSnapActivity" />
+        <activity android:name=".LoginActivity" />
     </application>
 
 </manifest>

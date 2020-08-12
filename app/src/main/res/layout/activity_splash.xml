@@ -5,30 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/yellow"
-    tools:context=".userList">
+    tools:context="com.example.SnapchatClone.SplashActivity"
+    >
 
-    <ListView
-        android:id="@+id/userListView"
-        android:layout_width="333dp"
-        android:layout_height="462dp"
-
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="196dp"
+        android:layout_height="123dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.471"
+        app:srcCompat="@drawable/ss" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="249dp"
-        android:layout_height="46dp"
-        android:text="Select receiver"
+        android:id="@+id/textView5"
+        android:layout_width="178dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="12dp"
+        android:text="Snapchat Clone"
         android:textColor="#D2691E"
-        android:textSize="30sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/userListView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.604"
+        app:layout_constraintHorizontal_bias="0.585"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.404" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

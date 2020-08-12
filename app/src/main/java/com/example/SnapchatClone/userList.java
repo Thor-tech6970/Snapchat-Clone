@@ -88,6 +88,10 @@ public class userList extends AppCompatActivity {
            }
            @Override
            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+
+
+
            }
            @Override
            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -122,12 +126,19 @@ public class userList extends AppCompatActivity {
                dataToShare.put("From " , FirebaseAuth.getInstance().getCurrentUser().getEmail());
                dataToShare.put(" Image URL " ,  intent.getStringExtra("Image URL"));
                dataToShare.put("Image Name" , intent.getStringExtra("Image Name" ) );
+               dataToShare.put("Message", intent.getStringExtra("Message"));
 
               // String imageName = FirebaseStorage.getInstance().getReference("Images").child(userID).
 
 
 
                firebaseDatabase.getReference().child("Users").child(keys.get(i)).child("Snaps").push().setValue(dataToShare);
+
+               Intent intent1 = new Intent(userList.this , CreateSnapActivity.class);
+
+              // intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+               startActivity(intent1);
 
            }
        });

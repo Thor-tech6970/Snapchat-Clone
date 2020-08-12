@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,29 +35,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void register(View view) {
 
-        String email = editText1.getText().toString();
+       Intent intent = new Intent(LoginActivity.this , RegisterActivity.class);
 
-        String password = editText2.getText().toString();
-
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-
-                authResult.getUser().sendEmailVerification();
-
-                Toast.makeText(LoginActivity.this, "Account created ! Please verify the mail to login .", Toast.LENGTH_SHORT).show();
-
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-                Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
+       startActivity(intent);
 
 
 
@@ -67,47 +49,56 @@ public class LoginActivity extends AppCompatActivity {
 
         final String password = editText2.getText().toString();
 
-        firebaseAuth.signInWithEmailAndPassword(email , password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
+        if(email.isEmpty() || password.isEmpty()){
 
-                if(authResult.getUser().isEmailVerified()){
+            Toast.makeText(LoginActivity.this , "Please fill in the above info" , Toast.LENGTH_SHORT).show();
 
-                  // Toast.makeText(LoginActivity.this , "Login Successful !" , Toast.LENGTH_SHORT).show();
+            return;
 
-                   String userID =  authResult.getUser().getUid();
+        }
 
-                   userReference = databaseReference.child(userID);
+        else {
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                @Override
+                public void onSuccess(AuthResult authResult) {
 
-                   Map<String , Object> dataToSave = new HashMap<String, Object>();
+                    if (authResult.getUser().isEmailVerified()) {
 
-                   dataToSave.put("Email" , email);
+                        // Toast.makeText(LoginActivity.this , "Login Successful !" , Toast.LENGTH_SHORT).show();
 
-                   dataToSave.put("Password" , password);
+                        String userID = authResult.getUser().getUid();
+
+                        userReference = databaseReference.child(userID);
+
+                        Map<String, Object> dataToSave = new HashMap<String, Object>();
+
+                        dataToSave.put("Email", email);
+
+                        dataToSave.put("Password", password);
 
 
-                   userReference.updateChildren(dataToSave);
+                        userReference.updateChildren(dataToSave);
 
-                    Intent intent = new Intent(LoginActivity.this , CreateSnapActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, CreateSnapActivity.class);
 
-                    startActivity(intent);
+                        startActivity(intent);
 
 
-               }
+                    } else {
 
-               else {
+                        Toast.makeText(LoginActivity.this, "Please verify your email through link sent on your mail to login !", Toast.LENGTH_SHORT).show();
 
-                   Toast.makeText(LoginActivity.this , "Please verify your email to login !" , Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
 
-               }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
-                Toast.makeText(LoginActivity.this , e.getMessage() , Toast.LENGTH_SHORT).show();
-            }
-        });
+        }
 
 
 
@@ -137,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
         editText1 = (EditText) findViewById(R.id.emailEditText);
         editText2 = (EditText) findViewById(R.id.passwordEditText);
 
-        if(firebaseAuth.getCurrentUser()!=null){
+        if(firebaseAuth.getCurrentUser()!=null && firebaseAuth.getCurrentUser().isEmailVerified() == true){
             startActivity(new Intent(LoginActivity.this,CreateSnapActivity.class));
         }
 

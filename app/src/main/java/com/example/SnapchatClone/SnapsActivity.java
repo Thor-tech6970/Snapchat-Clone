@@ -29,7 +29,7 @@ public class SnapsActivity extends AppCompatActivity {
 
     ImageView imageView;
 
-    TextView nameTextView;
+    TextView messageTextView;
 
     FirebaseDatabase firebaseDatabase;
 
@@ -87,11 +87,11 @@ public class SnapsActivity extends AppCompatActivity {
 
          imageView = (ImageView) findViewById(R.id.snapImageView);
 
-         nameTextView = (TextView) findViewById(R.id.nameTextView);
+        messageTextView = (TextView) findViewById(R.id.messageTextView);
 
           intent = getIntent();
 
-         nameTextView.setText("Snap name"+ intent.getStringExtra("Snap name"));
+        messageTextView.setText( intent.getStringExtra("Snap message"));
 
 
 
@@ -131,17 +131,8 @@ public class SnapsActivity extends AppCompatActivity {
 
 
         FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("Snaps").child(intent.getStringExtra("Snap key")).removeValue();
-        String snapname = intent.getStringExtra("Snap name");
-        FirebaseStorage.getInstance().getReference().child("Images").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(snapname).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(SnapsActivity.this,"Snap Deleted",Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(SnapsActivity.this,""+task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        String snapName = intent.getStringExtra("Snap name");
+        FirebaseStorage.getInstance().getReference().child("Images").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(snapName).delete();
 
 
     }
